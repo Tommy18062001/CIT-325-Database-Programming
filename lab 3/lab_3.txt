@@ -1,0 +1,63 @@
+
+Function VERIFY_DATE compiled
+
+old:DECLARE
+
+TYPE list IS TABLE OF VARCHAR2(100);
+TYPE three_type IS RECORD
+    (xnum NUMBER,
+    xdate DATE,
+    xstring VARCHAR2(20));
+
+info THREE_TYPE;
+lv_strings LIST;
+
+BEGIN
+ lv_strings := list('&1', '&2', '&3');
+ FOR i IN 1..lv_strings.COUNT LOOP
+    -- verify what type is the info entered by the user
+    IF REGEXP_LIKE(lv_strings(i), '^[[:digit:]]*$') THEN
+        info.xnum := TO_NUMBER(lv_strings(i));
+    ELSIF REGEXP_LIKE(lv_strings(i), '^[[:alnum:]]*$') THEN 
+        info.xstring := lv_strings(i);
+    ELSIF verify_date(lv_strings(i)) IS NOT NULL THEN 
+        info.xdate := lv_strings(i);
+    END IF;
+ END LOOP;
+
+ -- output
+ dbms_output.put_line('Record '||'[' ||info.xnum|| '] [' ||info.xstring|| '] [' ||info.xdate|| ']');
+
+END;
+
+new:DECLARE
+
+TYPE list IS TABLE OF VARCHAR2(100);
+TYPE three_type IS RECORD
+    (xnum NUMBER,
+    xdate DATE,
+    xstring VARCHAR2(20));
+
+info THREE_TYPE;
+lv_strings LIST;
+
+BEGIN
+ lv_strings := list('56', 'Tommy', '30-APR-2014');
+ FOR i IN 1..lv_strings.COUNT LOOP
+    -- verify what type is the info entered by the user
+    IF REGEXP_LIKE(lv_strings(i), '^[[:digit:]]*$') THEN
+        info.xnum := TO_NUMBER(lv_strings(i));
+    ELSIF REGEXP_LIKE(lv_strings(i), '^[[:alnum:]]*$') THEN 
+        info.xstring := lv_strings(i);
+    ELSIF verify_date(lv_strings(i)) IS NOT NULL THEN 
+        info.xdate := lv_strings(i);
+    END IF;
+ END LOOP;
+
+ -- output
+ dbms_output.put_line('Record '||'[' ||info.xnum|| '] [' ||info.xstring|| '] [' ||info.xdate|| ']');
+
+END;
+
+PL/SQL procedure successfully completed.
+
